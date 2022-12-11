@@ -1,2 +1,2 @@
-# c++_study_projects
+# C++_study_projects
 My C++ Study Projects
