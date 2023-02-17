@@ -1,8 +1,8 @@
-#ifndef SRC_S21_STACK_H_
-#define SRC_S21_STACK_H_
-#include "s21_containers.h"
+#ifndef SRC_STACK_H_
+#define SRC_STACK_H_
+#include "containers.h"
 
-namespace s21 {
+namespace study {
 template <class T>
 class stack {
  private:
@@ -51,6 +51,6 @@ class stack {
     template <typename... Args>
     void emplace_front(Args&&... args);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_STACK_H_
+#endif  // SRC_STACK_H_

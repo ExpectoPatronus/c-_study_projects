@@ -1,8 +1,8 @@
-#ifndef SRC_S21_MULTISET_H_
-#define SRC_S21_MULTISET_H_
-#include "s21_set.h"
+#ifndef SRC_MULTISET_H_
+#define SRC_MULTISET_H_
+#include "set.h"
 
-namespace s21 {
+namespace study {
 template <class K>
 class multiset : public set<K> {
  public:
@@ -11,8 +11,8 @@ class multiset : public set<K> {
     using value_type = K;
     using reference = value_type&;
     using const_reference = const value_type&;
-    using iterator = typename s21::set<K>::set_iter;
-    using const_iterator = typename s21::set<K>::set_iter;
+    using iterator = typename study::set<K>::set_iter;
+    using const_iterator = typename study::set<K>::set_iter;
     using size_type = size_t;
     using iter_pair = std::pair<iterator, iterator>;
     /* ----------------------------------------------- */
@@ -39,6 +39,6 @@ class multiset : public set<K> {
     iterator upper_bound(const_reference key);
     /* ----------------------------------------------- */
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_MULTISET_H_
+#endif  // SRC_MULTISET_H_

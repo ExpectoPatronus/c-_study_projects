@@ -1,14 +1,16 @@
-#include "s21_set.h"
+#include "set.h"
+
+namespace study {
 
 /* --БЛОК КОНСТРУКТОРОВ И ДЕСТРУКТОРОВ-- */
 template <class K>
-s21::set<K>::set() {
+set<K>::set() {
     _root = nullptr;
     _size = 0;
 }
 
 template <class K>
-s21::set<K>::set(std::initializer_list<value_type> const &items) : set() {
+set<K>::set(std::initializer_list<value_type> const &items) : set() {
     auto x = items.begin();
     while (x < items.end()) {
         this->insert(*x);
@@ -17,12 +19,12 @@ s21::set<K>::set(std::initializer_list<value_type> const &items) : set() {
 }
 
 template <class K>
-s21::set<K>::set(const set &s) : set() {
+set<K>::set(const set &s) : set() {
     tree_cpy(s._root, this);
 }
 
 template <class K>
-s21::set<K>::set(set &&s) : set() {
+set<K>::set(set &&s) : set() {
     if (_root != s._root) {
         std::swap(_root, s._root);
         std::swap(_size, s._size);
@@ -30,13 +32,13 @@ s21::set<K>::set(set &&s) : set() {
 }
 
 template <class K>
-s21::set<K>::~set() {
+set<K>::~set() {
     tree_del(&_root);
     _size = 0;
 }
 
 template <class K>
-s21::set<K>& s21::set<K>::operator=(set &&s) {
+set<K>& set<K>::operator=(set &&s) {
     if (_root != s._root) {
         tree_del(&_root);
         _size = 0;
@@ -50,7 +52,7 @@ s21::set<K>& s21::set<K>::operator=(set &&s) {
 /* --БЛОК РАБОТЫ С ДЕРЕВОМ-- */
 // ищем место для нового элемента
 template <class K>
-s21::rb_tree<K> *s21::set<K>::find_new_pos(K key) {
+rb_tree<K> *set<K>::find_new_pos(K key) {
     rb_tree<K> *result = _root;
     while ((result->left != nullptr && key < result->key) ||
            (result->right != nullptr && insert_check(key, result->key))) {
@@ -65,7 +67,7 @@ s21::rb_tree<K> *s21::set<K>::find_new_pos(K key) {
 
 // ищем самый левый элемент
 template <class K>
-s21::rb_tree<K> *s21::set<K>::find_left(rb_tree<K> *tree) {
+rb_tree<K> *set<K>::find_left(rb_tree<K> *tree) {
     rb_tree<K> *result;
     if (tree != nullptr) {
         if (tree->left == nullptr)
@@ -80,7 +82,7 @@ s21::rb_tree<K> *s21::set<K>::find_left(rb_tree<K> *tree) {
 
 // ищем самый правый элемент
 template <class K>
-s21::rb_tree<K> *s21::set<K>::find_right(rb_tree<K> *tree) {
+rb_tree<K> *set<K>::find_right(rb_tree<K> *tree) {
     rb_tree<K> *result;
     if (tree != nullptr) {
         if (tree->right == nullptr)
@@ -95,7 +97,7 @@ s21::rb_tree<K> *s21::set<K>::find_right(rb_tree<K> *tree) {
 
 // ищем ближайший меньший элемент
 template <class K>
-void s21::set<K>::find_prev(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** prev, int *flag) {
+void set<K>::find_prev(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** prev, int *flag) {
     if (tree != nullptr) {
         find_prev(tree->right, cur_pos, prev, flag);
         if (*flag == 0 && cur_pos == tree) {
@@ -110,7 +112,7 @@ void s21::set<K>::find_prev(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** 
 
 // ищем ближайший больший элемент
 template <class K>
-void s21::set<K>::find_next(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** next, int *flag) {
+void set<K>::find_next(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** next, int *flag) {
     if (tree != nullptr) {
         find_next(tree->left, cur_pos, next, flag);
         if (*flag == 0 && cur_pos == tree) {
@@ -125,7 +127,7 @@ void s21::set<K>::find_next(rb_tree<K>* tree, rb_tree<K>* cur_pos, rb_tree<K>** 
 
 // копирвоание дерева
 template <class K>
-void s21::set<K>::tree_cpy(rb_tree<K> *tree, set *new_set) {
+void set<K>::tree_cpy(rb_tree<K> *tree, set *new_set) {
     if (tree != nullptr) {
         new_set->insert(tree->key);
         tree_cpy(tree->left, new_set);
@@ -134,7 +136,7 @@ void s21::set<K>::tree_cpy(rb_tree<K> *tree, set *new_set) {
 }
 // печать дерева
 template <class K>
-void s21::set<K>::sorting(rb_tree<K> *tree) {
+void set<K>::sorting(rb_tree<K> *tree) {
     if (tree != nullptr) {
         sorting(tree->left);
         std::cout << tree->key << " ";
@@ -143,7 +145,7 @@ void s21::set<K>::sorting(rb_tree<K> *tree) {
 }
 // удаление дерева
 template <class K>
-void s21::set<K>::tree_del(rb_tree<K> **tree) {
+void set<K>::tree_del(rb_tree<K> **tree) {
     if (*tree != nullptr) {
         tree_del(&((*tree)->left));
         tree_del(&((*tree)->right));
@@ -153,7 +155,7 @@ void s21::set<K>::tree_del(rb_tree<K> **tree) {
 }
 // слияние деревьев
 template <class K>
-void s21::set<K>::tree_merg(rb_tree<K> *tree) {
+void set<K>::tree_merg(rb_tree<K> *tree) {
     if (tree != nullptr) {
         tree_merg(tree->left);
         tree_merg(tree->right);
@@ -163,7 +165,7 @@ void s21::set<K>::tree_merg(rb_tree<K> *tree) {
 
 // проверка наличия элемента в дереве
 template <class K>
-bool s21::set<K>::tree_contains(rb_tree<K> *tree, const K& key) {
+bool set<K>::tree_contains(rb_tree<K> *tree, const K& key) {
     bool result = false;
     if (tree != nullptr) {
         if (tree->key == key)
@@ -176,7 +178,7 @@ bool s21::set<K>::tree_contains(rb_tree<K> *tree, const K& key) {
 
 // пересчитываем размер дерева
 template <class K>
-void s21::set<K>::size_recalc(rb_tree<K> *tree) {
+void set<K>::size_recalc(rb_tree<K> *tree) {
     if (tree != nullptr) {
         size_recalc(tree->left);
         _size += 1;
@@ -186,13 +188,13 @@ void s21::set<K>::size_recalc(rb_tree<K> *tree) {
 
 // сравнение, сделано для наследования multiset
 template <class K>
-bool s21::set<K>::insert_check(K value, K key) {
+bool set<K>::insert_check(K value, K key) {
     return value > key;
 }
 
 // поиск позиции элемента в дереве
 template <class K>
-s21::rb_tree<K>* s21::set<K>::tree_find(rb_tree<K> *tree, const K& key) {
+rb_tree<K>* set<K>::tree_find(rb_tree<K> *tree, const K& key) {
     rb_tree<K> *result = nullptr;
     if (tree != nullptr) {
         if (tree->key == key)
@@ -207,7 +209,7 @@ s21::rb_tree<K>* s21::set<K>::tree_find(rb_tree<K> *tree, const K& key) {
 
 // печать отсортированного дерева
 template <class K>
-void s21::set<K>::print(const char* name) {
+void set<K>::print(const char* name) {
     std::cout << name << '\n';
     std::cout << "Size = " << this->size() << " _root pointer " << _root <<'\n';
     sorting(_root);
@@ -218,14 +220,14 @@ void s21::set<K>::print(const char* name) {
 /* --БЛОК ИТЕРАТОРОВ-- */
 // конструктор итератора
 template <class K>
-s21::set<K>::set_iter::set_iter() {
+set<K>::set_iter::set_iter() {
     _pos = nullptr;
     _iter_root = nullptr;
 }
 
 // разыименовывание итератора
 template <class K>
-const K& s21::set<K>::set_iter::operator*() {
+const K& set<K>::set_iter::operator*() {
     if (_pos == nullptr)
         throw std::range_error("null iterator");
     return _pos->key;
@@ -233,13 +235,13 @@ const K& s21::set<K>::set_iter::operator*() {
 
 // проверка равности итераторов
 template <class K>
-bool s21::set<K>::set_iter::operator==(const_iterator &i) {
+bool set<K>::set_iter::operator==(const_iterator &i) {
     return (_pos == i._pos && _iter_root == i._iter_root);
 }
 
 // переход к предыдущему элементу
 template <class K>
-typename s21::set<K>::iterator& s21::set<K>::set_iter::operator--() {
+typename set<K>::iterator& set<K>::set_iter::operator--() {
     set func_set;
     if (_pos == nullptr) {
         _pos = func_set.find_right(_iter_root);
@@ -255,7 +257,7 @@ typename s21::set<K>::iterator& s21::set<K>::set_iter::operator--() {
 
 // переход к следующему элементу
 template <class K>
-typename s21::set<K>::iterator& s21::set<K>::set_iter::operator++() {
+typename set<K>::iterator& set<K>::set_iter::operator++() {
     set func_set;
     if (_pos == nullptr) {
         _pos = func_set.find_left(_iter_root);
@@ -270,13 +272,13 @@ typename s21::set<K>::iterator& s21::set<K>::set_iter::operator++() {
 
 // проверка равности итераторов
 template <class K>
-bool s21::set<K>::set_iter::operator!=(const_iterator &i) {
+bool set<K>::set_iter::operator!=(const_iterator &i) {
     return !(*this == i);
 }
 
 // первый (наименьший) элемент
 template <class K>
-typename s21::set<K>::iterator s21::set<K>::begin() {
+typename set<K>::iterator set<K>::begin() {
     iterator result;
     result._pos = find_left(_root);
     result._iter_root = _root;
@@ -285,7 +287,7 @@ typename s21::set<K>::iterator s21::set<K>::begin() {
 
 // последний (наибольший) элемент
 template <class K>
-typename s21::set<K>::iterator s21::set<K>::end() {
+typename set<K>::iterator set<K>::end() {
     iterator result;
     result._pos = nullptr;
     result._iter_root = _root;
@@ -297,17 +299,17 @@ typename s21::set<K>::iterator s21::set<K>::end() {
 /* --БЛОК ПРОВЕРКИ НАПОЛНЕНИЯ-- */
 
 template <class K>
-bool s21::set<K>::empty() {
+bool set<K>::empty() {
     return (nullptr == _root);
 }
 
 template <class K>
-typename s21::set<K>::size_type s21::set<K>::size() {
+typename set<K>::size_type set<K>::size() {
     return _size;
 }
 
 template <class K>
-typename s21::set<K>::size_type s21::set<K>::max_size() {
+typename set<K>::size_type set<K>::max_size() {
     return std::numeric_limits<size_type>::max() / (sizeof(rb_tree<value_type>));
 }
 /* ----------------------------------------------- */
@@ -315,14 +317,14 @@ typename s21::set<K>::size_type s21::set<K>::max_size() {
 /* --БЛОК ИЗМЕНЕНИЯ КОНТЕЙНЕРА-- */
 // очистка дерева
 template <class K>
-void s21::set<K>::clear() {
+void set<K>::clear() {
     tree_del(&_root);
     _size = 0;
 }
 
 // вставка элемента
 template <class K>
-typename s21::set<K>::insert_res s21::set<K>::insert(const_reference value) {
+typename set<K>::insert_res set<K>::insert(const_reference value) {
     // подготовливаем переменные для возврата
     iterator iter;
     bool result_bool = true;
@@ -363,7 +365,7 @@ typename s21::set<K>::insert_res s21::set<K>::insert(const_reference value) {
 
 // удаление одного элемента
 template <class K>
-void s21::set<K>::erase(iterator pos) {
+void set<K>::erase(iterator pos) {
     rb_tree<K>* tree = pos._pos;
     if (tree != nullptr) {
         rb_tree<K>* pos_left = tree->left;
@@ -398,14 +400,14 @@ void s21::set<K>::erase(iterator pos) {
 
 // обмен данными между контейнерами
 template <class K>
-void s21::set<K>::swap(set& other) {
+void set<K>::swap(set& other) {
     std::swap(_root, other._root);
     std::swap(_size, other._size);
 }
 
 // слияние двух контейнеров
 template <class K>
-void s21::set<K>::merge(set& other) {
+void set<K>::merge(set& other) {
     iterator iter = other.begin();
     size_type size = other.size();
     while (size > 0) {
@@ -426,7 +428,7 @@ void s21::set<K>::merge(set& other) {
 // вставка нескольких элементов
 template <class K>
 template <class... Args>
-typename s21::set<K>::emplace_res s21::set<K>::emplace(Args&&... args) {
+typename set<K>::emplace_res set<K>::emplace(Args&&... args) {
     emplace_res result;
     std::vector<value_type> args_vector = { args... };
     auto x = args_vector.begin();
@@ -442,17 +444,17 @@ typename s21::set<K>::emplace_res s21::set<K>::emplace(Args&&... args) {
 
 // наличие элемента в контейнере
 template <class K>
-bool s21::set<K>::contains(const K& key) {
+bool set<K>::contains(const K& key) {
     return tree_contains(_root, key);
 }
 
 // поиск позиции элемента в контейнере
 template <class K>
-typename s21::set<K>::iterator s21::set<K>::find(const K& key) {
-    s21::set<K>::iterator result;
+typename set<K>::iterator set<K>::find(const K& key) {
+    set<K>::iterator result;
     result._pos = tree_find(_root, key);
     result._iter_root = _root;
     return result;
 }
-
+}  // namespace study
 /* ----------------------------------------------- */

@@ -1,14 +1,15 @@
-#include "s21_multiset.h"
+#include "multiset.h"
 
+namespace study {
 /* --БЛОК КОНСТРУКТОРОВ И ДЕСТРУКТОРОВ-- */
 template <class K>
-s21::multiset<K>::multiset() {
+multiset<K>::multiset() {
     this->_root = nullptr;
     this->_size = 0;
 }
 
 template <class K>
-s21::multiset<K>::multiset(std::initializer_list<value_type> const &items) : multiset() {
+multiset<K>::multiset(std::initializer_list<value_type> const &items) : multiset() {
     auto x = items.begin();
     while (x < items.end()) {
         this->insert(*x);
@@ -17,12 +18,12 @@ s21::multiset<K>::multiset(std::initializer_list<value_type> const &items) : mul
 }
 
 template <class K>
-s21::multiset<K>::multiset(const multiset &s) : multiset() {
+multiset<K>::multiset(const multiset &s) : multiset() {
     this->tree_cpy(s._root, this);
 }
 
 template <class K>
-s21::multiset<K>::multiset(multiset &&s) : multiset() {
+multiset<K>::multiset(multiset &&s) : multiset() {
     if (this->_root != s._root) {
         std::swap(this->_root, s._root);
         std::swap(this->_size, s._size);
@@ -30,13 +31,13 @@ s21::multiset<K>::multiset(multiset &&s) : multiset() {
 }
 
 template <class K>
-s21::multiset<K>::~multiset() {
+multiset<K>::~multiset() {
     this->tree_del(&this->_root);
     this->_size = 0;
 }
 
 template <class K>
-s21::multiset<K>& s21::multiset<K>::operator=(multiset &&s) {
+multiset<K>& multiset<K>::operator=(multiset &&s) {
     this->tree_del(&this->_root);
     this->_size = 0;
     std::swap(this->_root, s._root);
@@ -47,14 +48,14 @@ s21::multiset<K>& s21::multiset<K>::operator=(multiset &&s) {
 
 // сравнение, сделано для наследования multiset
 template <class K>
-bool s21::multiset<K>::insert_check(K value, K key) {
+bool multiset<K>::insert_check(K value, K key) {
     return value >= key;
 }
 
 
 // вставка элемента
 template <class K>
-typename s21::multiset<K>::iterator s21::multiset<K>::insert(const_reference value) {
+typename multiset<K>::iterator multiset<K>::insert(const_reference value) {
     // подготовливаем переменные для возврата
     iterator iter;
     // если это первый элемент, тогда создаём корень
@@ -86,7 +87,7 @@ typename s21::multiset<K>::iterator s21::multiset<K>::insert(const_reference val
 }
 
 template <class K>
-void s21::multiset<K>::merge(multiset& other) {
+void multiset<K>::merge(multiset& other) {
     // избавляемся от лишней работы
     if (this->_root != other._root) {
         this->tree_merg(other._root);
@@ -97,7 +98,7 @@ void s21::multiset<K>::merge(multiset& other) {
 
 // подсчёт совпадающих элементов
 template <class K>
-typename s21::multiset<K>::size_type  s21::multiset<K>::count(const K& key) {
+typename multiset<K>::size_type  multiset<K>::count(const K& key) {
     size_type result = 0;
     size_type x = 0;
     iterator iter = this->begin();
@@ -112,13 +113,13 @@ typename s21::multiset<K>::size_type  s21::multiset<K>::count(const K& key) {
 
 // поиск диапазона
 template <class K>
-typename s21::multiset<K>::iter_pair  s21::multiset<K>::equal_range(const K& key) {
+typename multiset<K>::iter_pair  multiset<K>::equal_range(const K& key) {
     return { lower_bound(key), upper_bound(key)};
 }
 
 // поиск первого элемента большего и равного ключу
 template <class K>
-typename s21::multiset<K>::iterator  s21::multiset<K>::lower_bound(const K& key) {
+typename multiset<K>::iterator  multiset<K>::lower_bound(const K& key) {
     iterator iter = this->begin();
     iterator result = this->end();
     size_type x = this->size();
@@ -136,7 +137,7 @@ typename s21::multiset<K>::iterator  s21::multiset<K>::lower_bound(const K& key)
 
 // поиск первого элемента большего чем ключ
 template <class K>
-typename s21::multiset<K>::iterator  s21::multiset<K>::upper_bound(const K& key) {
+typename multiset<K>::iterator  multiset<K>::upper_bound(const K& key) {
     iterator iter = this->begin();
     iterator result = this->end();
     size_type x = this->size();
@@ -151,3 +152,4 @@ typename s21::multiset<K>::iterator  s21::multiset<K>::upper_bound(const K& key)
     }
     return result;
 }
+}  // namespace study

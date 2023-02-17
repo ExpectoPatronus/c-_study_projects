@@ -1,7 +1,9 @@
-#include "s21_array.h"
+#include "array.h"
+
+namespace study{
 
 template <class T, std::size_t N>
-s21::array<T, N>::array(const array &v) {
+array<T, N>::array(const array &v) {
     if (N < this->_size)
         throw(std::length_error("Excess elements in array initializer"));
     this->_size = v.size();
@@ -11,11 +13,11 @@ s21::array<T, N>::array(const array &v) {
 }
 
 template <class T, std::size_t N>
-s21::array<T, N>::array(array &&v) : array(v) {}
+array<T, N>::array(array &&v) : array(v) {}
 
 
 template <class T, std::size_t N>
-s21::array<T, N>& s21::array<T, N>::operator=(const s21::array<T, N> &v) {
+array<T, N>& array<T, N>::operator=(const array<T, N> &v) {
     if (this->_size != v._size) {
         throw(std::out_of_range("Must have same size"));
     }
@@ -26,7 +28,7 @@ s21::array<T, N>& s21::array<T, N>::operator=(const s21::array<T, N> &v) {
 }
 
 template <class T, std::size_t N>
-s21::array<T, N>& s21::array<T, N>::operator=(s21::array<T, N> &&v) {
+array<T, N>& array<T, N>::operator=(array<T, N> &&v) {
     if (this == &v)
         return *this;
     operator=(v);
@@ -34,12 +36,13 @@ s21::array<T, N>& s21::array<T, N>::operator=(s21::array<T, N> &&v) {
 }
 
 template <class T, std::size_t N>
-void s21::array<T, N>::swap(array& other) noexcept {
+void array<T, N>::swap(array& other) noexcept {
     std::swap(this->_arr, other._arr);
 }
 
 template <class T, std::size_t N>
-void s21::array<T, N>::fill(const_reference value) {
+void array<T, N>::fill(const_reference value) {
     for (iterator i = this->begin(); i != this->end(); ++i)
         *i = value;
 }
+}  // namespace study

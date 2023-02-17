@@ -1,9 +1,9 @@
-#ifndef SRC_S21_LIST_H_
-#define SRC_S21_LIST_H_
+#ifndef SRC_LIST_H_
+#define SRC_LIST_H_
 
-#include "s21_list_iterator.h"
+#include "list_iterator.h"
 
-namespace s21 {
+namespace study {
 template <class T>
 class list {
  private:
@@ -86,6 +86,6 @@ class list {
     template <typename... Args>
     void emplace_front(Args&&... args);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_LIST_H_
+#endif  // SRC_LIST_H_

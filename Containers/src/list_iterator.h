@@ -1,9 +1,10 @@
-#ifndef SRC_S21_LIST_ITERATOR_H_
-#define SRC_S21_LIST_ITERATOR_H_
+#ifndef SRC_LIST_ITERATOR_H_
+#define SRC_LIST_ITERATOR_H_
 
-#include "s21_containers.h"
+#include "containers.h"
 
-namespace s21 {
+namespace study {
+
 template <typename T, typename Node>
 class list_iterator {
  public:
@@ -69,19 +70,19 @@ class list_iterator {
 };
 
 template <typename T, typename Node>
-class const_list_iterator : public s21::list_iterator<T, Node> {
+class const_list_iterator : public study::list_iterator<T, Node> {
  public:
     using value_type = T;
     using reference = const value_type&;
     using const_reference = const T&;
     using const_iterator = const_list_iterator<T, Node>;
-    using iterator = s21::list_iterator<T, Node>;
+    using iterator = study::list_iterator<T, Node>;
     using size_type = size_t;
 
  public:
-    const_list_iterator() : s21::list_iterator<T, Node>()  {}
+    const_list_iterator() : study::list_iterator<T, Node>()  {}
     const_list_iterator(Node* new_ptr, Node* new_root, Node* new_tail)
-                        : s21::list_iterator<T, Node>(new_ptr, new_root, new_tail) {}
+                        : study::list_iterator<T, Node>(new_ptr, new_root, new_tail) {}
     Node* operator->() { return this->ptr; }
     Node* operator->() const { return this->ptr; }
     explicit const_list_iterator(const iterator& other) : const_list_iterator() {
@@ -103,6 +104,6 @@ class const_list_iterator : public s21::list_iterator<T, Node> {
         return (*this);
     }
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_LIST_ITERATOR_H_
+#endif  // SRC_LIST_ITERATOR_H_

@@ -1,42 +1,38 @@
 OS := $(shell uname -s)
 
-SOURCES= s21_array.cpp\
-		s21_list.cpp\
-		s21_queue.cpp\
-		s21_stack.cpp\
-		s21_vector.cpp\
-		s21_map.cpp\
-		s21_set.cpp\
-		s21_multiset.cpp
-		
-OBJECTS=$(SOURCES:.cpp=.o)
+SOURCES= array.cpp\
+		list.cpp\
+		queue.cpp\
+		stack.cpp\
+		vector.cpp\
+		map.cpp\
+		set.cpp\
+		multiset.cpp
+
 CC=g++
 GFLAGS= -fprofile-arcs -ftest-coverage
+OS=$(shell uname)
 
 ifeq ($(OS), Linux)
   LIBS= -lgtest -lpthread -lrt -lm
   LEAKER= valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes -s
+  TESTGCC=-std=c++2a
 else
   LIBS= -lgtest
   LEAKER= CK_FORK=no leaks --atExit --
+  TESTGCC=-std=c++20
 endif
-
 
 all: test
 
-s21_containers.a:
-	$(CC) -c $(SOURCES)  -std=c++17
-	ar rcs s21_containers.a $(OBJECTS)
-	ranlib s21_containers.a
-
-test: s21_containers.a
-	$(CC) -std=c++20 -c s21_test.cpp
-	$(CC) s21_test.o s21_containers.a $(LIBS) -o Test
+test: $(SOURCES)
+	$(CC) $(TESTGCC) -c test.cpp
+	$(CC) test.o $(LIBS) -o Test
 	./Test
 
 gcov_report:
 	@rm -rf coverage test *.info *.gcda *.gcno
-	@$(CC) -std=c++20 s21_test.cpp  $(SOURCES) $(LIBS) $(GFLAGS) -o test
+	@$(CC)  $(TESTGCC) test.cpp  $(SOURCES) $(LIBS) $(GFLAGS) -o test
 	@./test
 	@lcov -c -d ./ -o coverage.info
 	@genhtml -o coverage coverage.info
@@ -49,10 +45,7 @@ clean:
 
 rebuild: clean all
 
-check:
-	cppcheck --enable=all --suppress=missingIncludeSystem *.cpp
-
 leaks: test
 	$(LEAKER) ./Test
 
-.PHONY: all clean check rebuild test gcov_report
+.PHONY: all clean rebuild test gcov_report leaks

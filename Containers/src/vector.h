@@ -1,8 +1,8 @@
-#ifndef SRC_S21_VECTOR_H_
-#define SRC_S21_VECTOR_H_
-#include "s21_containers.h"
+#ifndef SRC_VECTOR_H_
+#define SRC_VECTOR_H_
+#include "containers.h"
 
-namespace s21 {
+namespace study {
 template <class T>
 class vector : public sequence_container<T> {
  private:
@@ -49,6 +49,6 @@ class vector : public sequence_container<T> {
     template <typename... Args>
     void emplace_back(Args &&...args);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_VECTOR_H_
+#endif  // SRC_VECTOR_H_

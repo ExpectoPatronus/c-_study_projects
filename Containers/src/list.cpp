@@ -1,10 +1,11 @@
-#include "s21_list.h"
+#include "list.h"
 
 
 /* ---------------------LIST FUNCTIONS--------------------- */
+namespace study {
 
 template <class T>
-s21::list<T>::list() : _root(nullptr), _tail(nullptr), _size(0U) {
+list<T>::list() : _root(nullptr), _tail(nullptr), _size(0U) {
     this->_root = new Node();
     this->_tail = new Node();
     this->_root->next = this->_tail;
@@ -12,7 +13,7 @@ s21::list<T>::list() : _root(nullptr), _tail(nullptr), _size(0U) {
 }
 
 template <class T>
-s21::list<T>::list(size_type n) : list() {
+list<T>::list(size_type n) : list() {
     _size = n;
     while (n-- > 0) {
         Node* new_node = new Node;
@@ -24,7 +25,7 @@ s21::list<T>::list(size_type n) : list() {
 }
 
 template <class T>
-s21::list<T>::list(std::initializer_list<value_type> const &items) : s21::list<T>::list() {
+list<T>::list(std::initializer_list<value_type> const &items) : list<T>::list() {
     auto x = items.begin();
     while (x < items.end()) {
         this->push_back(*x);
@@ -34,7 +35,7 @@ s21::list<T>::list(std::initializer_list<value_type> const &items) : s21::list<T
 }
 
 template <class T>
-s21::list<T>::list(const list &l) : s21::list<T>::list() {
+list<T>::list(const list &l) : list<T>::list() {
     Node* position = l._root->next;
     while (position->next != nullptr) {
         push_back(position->data);
@@ -44,12 +45,12 @@ s21::list<T>::list(const list &l) : s21::list<T>::list() {
 }
 
 template <class T>
-s21::list<T>::list(list &&s) : s21::list<T>::list() {
+list<T>::list(list &&s) : list<T>::list() {
     operator=(std::move(s));
 }
 
 template <class T>
-s21::list<T>& s21::list<T>::operator=(s21::list<T> &&other) noexcept {
+list<T>& list<T>::operator=(list<T> &&other) noexcept {
     if (&other == this)
         return *this;
     this->~list();
@@ -60,7 +61,7 @@ s21::list<T>& s21::list<T>::operator=(s21::list<T> &&other) noexcept {
 }
 
 template <class T>
-s21::list<T>::~list() {
+list<T>::~list() {
     this->clear();
     delete this->_tail;
     delete this->_root;
@@ -69,7 +70,7 @@ s21::list<T>::~list() {
 /* ---------------------LIST MODIFIERS--------------------- */
 
 template <class T>
-void s21::list<T>::push_back(const value_type &value) {
+void list<T>::push_back(const value_type &value) {
     Node* ptr = new Node(value);
     ptr->next = _tail;
     ptr->prev = _tail->prev;
@@ -79,7 +80,7 @@ void s21::list<T>::push_back(const value_type &value) {
 }
 
 template <class T>
-void s21::list<T>::push_front(const value_type &value) {
+void list<T>::push_front(const value_type &value) {
     Node* ptr = new Node(value);
     ptr->prev = _root;
     ptr->next = _root->next;
@@ -89,7 +90,7 @@ void s21::list<T>::push_front(const value_type &value) {
 }
 
 template <class T>
-void s21::list<T>::pop_back() {
+void list<T>::pop_back() {
     if (empty()) {
         throw std::length_error("list is empty");
     }
@@ -101,7 +102,7 @@ void s21::list<T>::pop_back() {
 }
 
 template <class T>
-void s21::list<T>::pop_front() {
+void list<T>::pop_front() {
     if (empty()) {
         throw std::length_error("list is empty");
     }
@@ -114,7 +115,7 @@ void s21::list<T>::pop_front() {
 }
 
 template <class T>
-void s21::list<T>::clear() {
+void list<T>::clear() {
     while (!empty()) {
         pop_front();
     }
@@ -122,14 +123,14 @@ void s21::list<T>::clear() {
 
 
 template <class T>
-void s21::list<T>::swap(list& other) noexcept {
+void list<T>::swap(list& other) noexcept {
     std::swap(_size, other._size);
     std::swap(_root, other._root);
     std::swap(_tail, other._tail);
 }
 
 template <class T>
-typename s21::list<T>::iterator s21::list<T>::insert(iterator pos, const_reference value) {
+typename list<T>::iterator list<T>::insert(iterator pos, const_reference value) {
     Node *insertion = new Node(value);
     insertion->prev = pos.ptr->prev;
     insertion->next = pos.ptr;
@@ -143,7 +144,7 @@ typename s21::list<T>::iterator s21::list<T>::insert(iterator pos, const_referen
 
 
 template <class T>
-void s21::list<T>::erase(iterator pos) {
+void list<T>::erase(iterator pos) {
     if (pos.ptr == nullptr || pos.ptr->next == nullptr) {
         throw std::out_of_range("incorrect iterator");
     }
@@ -155,7 +156,7 @@ void s21::list<T>::erase(iterator pos) {
 }
 
 template <class T>
-void s21::list<T>::splice(const_iterator pos, list& other) {
+void list<T>::splice(const_iterator pos, list& other) {
     if (&other == this)
         return;
     if (_size == 0) {
@@ -174,7 +175,7 @@ void s21::list<T>::splice(const_iterator pos, list& other) {
 }
 
 template <class T>
-void s21::list<T>::reverse() noexcept {
+void list<T>::reverse() noexcept {
     iterator it = begin();
     while (it != end()) {
         std::swap(it.ptr->prev, it.ptr->next);
@@ -186,7 +187,7 @@ void s21::list<T>::reverse() noexcept {
 }
 
 template <class T>
-void s21::list<T>::unique() {
+void list<T>::unique() {
     iterator iter = this->begin();
     while (iter != this->end()) {
         if (*iter == iter.ptr->next->data) {
@@ -199,7 +200,7 @@ void s21::list<T>::unique() {
 }
 
 template <class T>
-void s21::list<T>::sort() {
+void list<T>::sort() {
     iterator First = begin();
     iterator Last = end();
     while (First != --Last)
@@ -209,7 +210,7 @@ void s21::list<T>::sort() {
 }
 
 template <class T>
-void s21::list<T>::merge(list& other) {
+void list<T>::merge(list& other) {
     if (&other == this)
         return;
     if (this->_size == 0) {
@@ -242,7 +243,7 @@ void s21::list<T>::merge(list& other) {
 
 template <typename T>
 template <typename... Args>
-typename s21::list<T>::iterator s21::list<T>::emplace(const_iterator pos, Args&&... args) {
+typename list<T>::iterator list<T>::emplace(const_iterator pos, Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -256,7 +257,7 @@ typename s21::list<T>::iterator s21::list<T>::emplace(const_iterator pos, Args&&
 
 template <class T>
 template <typename... Args>
-void s21::list<T>::emplace_back(Args&&... args) {
+void list<T>::emplace_back(Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -267,7 +268,7 @@ void s21::list<T>::emplace_back(Args&&... args) {
 
 template <class T>
 template <typename... Args>
-void s21::list<T>::emplace_front(Args&&... args) {
+void list<T>::emplace_front(Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -275,3 +276,4 @@ void s21::list<T>::emplace_front(Args&&... args) {
         x += 1;
     }
 }
+}  // namespace study

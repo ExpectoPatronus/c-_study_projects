@@ -1,9 +1,10 @@
-#include "s21_vector.h"
+#include "vector.h"
 #include <cstring>
 
+namespace study {
 
 template <class T>
-s21::vector<T>::vector(std::initializer_list<value_type> const &items) {
+vector<T>::vector(std::initializer_list<value_type> const &items) {
     this->_arr = new value_type[items.size()];
     int i = 0;
     for (auto it = items.begin(); it != items.end(); it++) {
@@ -15,7 +16,7 @@ s21::vector<T>::vector(std::initializer_list<value_type> const &items) {
 }
 
 template <class T>
-s21::vector<T>::vector(const vector &v) {
+vector<T>::vector(const vector &v) {
     this->_size = v.size();
     _capacity = v.capacity();
     this->_arr = new value_type[this->_capacity]();
@@ -25,7 +26,7 @@ s21::vector<T>::vector(const vector &v) {
 
 
 template <class T>
-s21::vector<T>::vector(vector &&v) {
+vector<T>::vector(vector &&v) {
     this->_size = v._size;
     _capacity = v._capacity;
     this->_arr = v._arr;
@@ -36,7 +37,7 @@ s21::vector<T>::vector(vector &&v) {
 
 
 template <class T>
-void s21::vector<T>::reserve(size_t size) {
+void vector<T>::reserve(size_t size) {
     if (size > this->max_size())
                         throw(std::length_error("Not enough space"));
     if (size <= _capacity) return;
@@ -53,7 +54,7 @@ void s21::vector<T>::reserve(size_t size) {
 }
 
 template <class T>
-void s21::vector<T>::resize(size_t n, const T& value) {
+void vector<T>::resize(size_t n, const T& value) {
     while (n < this->_size)
         pop_back();
     if (n > this->_capacity)
@@ -63,7 +64,7 @@ void s21::vector<T>::resize(size_t n, const T& value) {
 }
 
 template <class T>
-void s21::vector<T>::push_back(const T& value) {
+void vector<T>::push_back(const T& value) {
     if (_capacity == this->_size) {
         if (this->_size == 0)
             reserve(1);
@@ -74,26 +75,26 @@ void s21::vector<T>::push_back(const T& value) {
 }
 
 template <class T>
-void s21::vector<T>::pop_back() {
+void vector<T>::pop_back() {
     --this->_size;
     (this->_arr+this->_size)->~T();
 }
 
 template <class T>
-void s21::vector<T>::clear() noexcept {
+void vector<T>::clear() noexcept {
     while (this->_size)
         pop_back();
 }
 
 template <class T>
-void s21::vector<T>::swap(vector& other) noexcept {
+void vector<T>::swap(vector& other) noexcept {
     std::swap(this->_size, other._size);
     std::swap(_capacity, other._capacity);
     std::swap(this->_arr, other._arr);
 }
 
 template <class T>
-s21::vector<T>& s21::vector<T>::operator=(s21::vector<T> &&v) {
+vector<T>& vector<T>::operator=(vector<T> &&v) {
         if (this == &v)
             return *this;
         delete[] this->_arr;
@@ -104,7 +105,7 @@ s21::vector<T>& s21::vector<T>::operator=(s21::vector<T> &&v) {
 }
 
 template <class T>
-void s21::vector<T>::erase(const iterator pos) {
+void vector<T>::erase(const iterator pos) {
     for (size_type i = pos - this->begin() ; i < this->_size - 1 ; ++i) {
         this->_arr[i] = this->_arr[i + 1];
     }
@@ -112,7 +113,7 @@ void s21::vector<T>::erase(const iterator pos) {
 }
 
 template <class T>
-typename s21::vector<T>::iterator s21::vector<T>::insert(const iterator pos, const_reference value) {
+typename vector<T>::iterator vector<T>::insert(const iterator pos, const_reference value) {
     size_type i = pos - this->begin();
     if (_capacity < this->_size + 1)
         this->reserve(this->_size + 1);
@@ -127,7 +128,7 @@ typename s21::vector<T>::iterator s21::vector<T>::insert(const iterator pos, con
 }
 
 template <class T>
-void s21::vector<T>::shrink_to_fit() {
+void vector<T>::shrink_to_fit() {
     if (_capacity > this->_size) {
         T* newarr = new value_type[this->_size]();
         for (size_t i = 0; i < this->_size; i++) {
@@ -144,7 +145,7 @@ void s21::vector<T>::shrink_to_fit() {
 
 template <typename T>
 template <typename... Args>
-typename s21::vector<T>::iterator s21::vector<T>::emplace(const_iterator pos, Args&&... args) {
+typename vector<T>::iterator vector<T>::emplace(const_iterator pos, Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     do {
@@ -165,7 +166,7 @@ typename s21::vector<T>::iterator s21::vector<T>::emplace(const_iterator pos, Ar
 
 template <class T>
 template <typename... Args>
-void s21::vector<T>::emplace_back(Args&&... args) {
+void vector<T>::emplace_back(Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -173,3 +174,4 @@ void s21::vector<T>::emplace_back(Args&&... args) {
         x += 1;
     }
 }
+}  // namespace study
