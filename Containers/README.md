@@ -3,8 +3,8 @@
 ## Description of the task in the project
 
 As part of the project our own library was written that implements the basic standard C++ container classes:
-- `list`, `queue`, `stack`, `vector`, `array` (implemented by [ExpectoPatronus](https://github.com/ExpectoPatronus))
-- `map`,  `set`, `multiset`
+- `list`, `queue`, `stack`, `vector`, `array`
+- `map`,  `set`, `multiset` (implemented by [kang-bird](https://github.com/kang-bird)).
 
 Implementations are provided a full set of standard methods and attributes for element handling, container capacity checking and iteration.
 
