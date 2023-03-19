@@ -1,8 +1,8 @@
-#ifndef SRC_S21_MAP_H_
-#define SRC_S21_MAP_H_
-#include "s21_set.h"
+#ifndef SRC_MAP_H_
+#define SRC_MAP_H_
+#include "set.h"
 
-namespace s21 {
+namespace study {
 
 template <class K, class M>
 class map {
@@ -12,7 +12,7 @@ class map {
     using value_type = std::pair<const K, M>;
     using reference = value_type&;
     using const_reference = const value_type&;
-    using iterator = typename s21::set<value_type>::set_iter;
+    using iterator = typename study::set<value_type>::set_iter;
     using const_iterator = const iterator;
     using size_type = size_t;
 
@@ -22,7 +22,7 @@ class map {
     using emplace_res = std::vector<std::pair<iterator, bool>>;
 
  protected:
-    s21::set<value_type> _value;
+    study::set<value_type> _value;
 
  public:
     /* --БЛОК КОНСТРУКТОРОВ И ДЕСТРУКТОРОВ-- */
@@ -69,6 +69,6 @@ class map {
     /* ----------------------------------------------- */
     void print(const char* name);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_MAP_H_
+#endif  // SRC_MAP_H_

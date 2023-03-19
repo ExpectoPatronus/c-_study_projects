@@ -1,7 +1,9 @@
-#include "s21_queue.h"
+#include "queue.h"
+
+namespace study {
 
 template <class T>
-s21::queue<T>::queue(std::initializer_list<value_type> const &items) {
+queue<T>::queue(std::initializer_list<value_type> const &items) {
     _root = nullptr;
     _size = 0;
     auto x = items.begin();
@@ -13,7 +15,7 @@ s21::queue<T>::queue(std::initializer_list<value_type> const &items) {
 }
 
 template <class T>
-s21::queue<T>::queue(const queue &q) {
+queue<T>::queue(const queue &q) {
     if (q.empty()) {
         _root = nullptr;
         _tail = nullptr;
@@ -33,13 +35,13 @@ s21::queue<T>::queue(const queue &q) {
 }
 
 template <class T>
-s21::queue<T>::queue(queue &&s) {
+queue<T>::queue(queue &&s) {
     _root = nullptr;
     operator=(std::move(s));
 }
 
 template <class T>
-s21::queue<T>& s21::queue<T>::operator=(s21::queue<T> &&other) {
+queue<T>& queue<T>::operator=(queue<T> &&other) {
     if (&other == this)
         return *this;
     this->~queue();
@@ -51,7 +53,7 @@ s21::queue<T>& s21::queue<T>::operator=(s21::queue<T> &&other) {
 
 
 template <class T>
-void s21::queue<T>::push(const_reference value) {
+void queue<T>::push(const_reference value) {
     if (empty()) {
         _root = new Node(value);
         _tail = _root;
@@ -64,7 +66,7 @@ void s21::queue<T>::push(const_reference value) {
 }
 
 template <class T>
-void s21::queue<T>::pop() {
+void queue<T>::pop() {
     if (empty()) {
         throw std::length_error("stack is empty");
     }
@@ -75,7 +77,7 @@ void s21::queue<T>::pop() {
 }
 
 template <class T>
-void s21::queue<T>::swap(queue& other) noexcept {
+void queue<T>::swap(queue& other) noexcept {
     std::swap(_size, other._size);
     std::swap(_root, other._root);
     std::swap(_tail, other._tail);
@@ -84,7 +86,7 @@ void s21::queue<T>::swap(queue& other) noexcept {
 
 template <class T>
 template <typename... Args>
-void s21::queue<T>::emplace_back(Args&&... args) {
+void queue<T>::emplace_back(Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -92,3 +94,4 @@ void s21::queue<T>::emplace_back(Args&&... args) {
         x += 1;
     }
 }
+}  // namespace study

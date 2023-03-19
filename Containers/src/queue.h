@@ -1,9 +1,9 @@
-#ifndef SRC_S21_QUEUE_H_
-#define SRC_S21_QUEUE_H_
+#ifndef SRC_QUEUE_H_
+#define SRC_QUEUE_H_
 
-#include "s21_containers.h"
+#include "containers.h"
 
-namespace s21 {
+namespace study {
 template <class T>
 class queue {
  private:
@@ -54,6 +54,6 @@ class queue {
     template <typename... Args>
     void emplace_back(Args&&... args);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_QUEUE_H_
+#endif  // SRC_QUEUE_H_

@@ -1,8 +1,8 @@
-#ifndef SRC_S21_SET_H_
-#define SRC_S21_SET_H_
-#include "s21_containers.h"
+#ifndef SRC_SET_H_
+#define SRC_SET_H_
+#include "containers.h"
 
-namespace s21 {
+namespace study {
 
 template <class K>
 struct rb_tree{
@@ -107,5 +107,5 @@ class set {
 
     void print(const char* name);
 };
-}  // namespace s21
-#endif  // SRC_S21_SET_H_
+}  // namespace study
+#endif  // SRC_SET_H_

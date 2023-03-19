@@ -4,12 +4,12 @@
 
 As part of the project our own library was written that implements the basic standard C++ container classes:
 - `list`, `queue`, `stack`, `vector`, `array`
-- `map`,  `set`, `multiset`  (implemented by [kang-bird](https://github.com/kang-bird)).
+- `map`,  `set`, `multiset` (implemented by [kang-bird](https://github.com/kang-bird)).
 
 Implementations are provided a full set of standard methods and attributes for element handling, container capacity checking and iteration.
 
 - The program was developed in C++ language of  C++17 standard using template
-- Classes were implemented within the `s21` namespace
+- Classes were implemented within the `study` namespace
 - Container classes methods were full coverage with unit-tests using the GTest library
 - The logic of the Standard Template Library (STL) was followed (in terms of checks, memory handling and behaviour in abnormal situations)
 

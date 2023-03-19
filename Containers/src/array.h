@@ -1,9 +1,9 @@
-#ifndef SRC_S21_ARRAY_H_
-#define SRC_S21_ARRAY_H_
+#ifndef SRC_ARRAY_H_
+#define SRC_ARRAY_H_
 
-#include "s21_containers.h"
+#include "containers.h"
 
-namespace s21 {
+namespace study {
 template <class T, std::size_t N>
 class array : public sequence_container<T> {
  public:
@@ -36,6 +36,6 @@ class array : public sequence_container<T> {
     void swap(array& other) noexcept;
     void fill(const_reference value);
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_ARRAY_H_
+#endif  // SRC_ARRAY_H_

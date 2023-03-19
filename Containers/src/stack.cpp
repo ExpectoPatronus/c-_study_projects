@@ -1,7 +1,9 @@
-#include "s21_stack.h"
+#include "stack.h"
+
+namespace study {
 
 template <class T>
-s21::stack<T>::stack(std::initializer_list<value_type> const &items) {
+stack<T>::stack(std::initializer_list<value_type> const &items) {
     _size = 0;
     _root = nullptr;
     auto x = items.begin();
@@ -13,7 +15,7 @@ s21::stack<T>::stack(std::initializer_list<value_type> const &items) {
 }
 
 template <class T>
-s21::stack<T>::stack(const stack &s) {
+stack<T>::stack(const stack &s) {
     if (s.empty()) {
         _root = nullptr;
     } else {
@@ -32,13 +34,13 @@ s21::stack<T>::stack(const stack &s) {
 }
 
 template <class T>
-s21::stack<T>::stack(stack &&s) {
+stack<T>::stack(stack &&s) {
     _root = nullptr;
     operator=(std::move(s));
 }
 
 template <class T>
-typename s21::stack<T>::const_reference s21::stack<T>::top() const {
+typename stack<T>::const_reference stack<T>::top() const {
     if (empty()) {
         throw std::length_error("stack is empty");
     }
@@ -46,7 +48,7 @@ typename s21::stack<T>::const_reference s21::stack<T>::top() const {
 }
 
 template <class T>
-void s21::stack<T>::pop() {
+void stack<T>::pop() {
     if (empty()) {
         throw std::length_error("stack is empty");
     }
@@ -58,7 +60,7 @@ void s21::stack<T>::pop() {
 }
 
 template <class T>
-void s21::stack<T>::push(const_reference value) {
+void stack<T>::push(const_reference value) {
     Node* newnode = new Node;
     newnode->data = value;
     newnode->next = _root;
@@ -67,13 +69,13 @@ void s21::stack<T>::push(const_reference value) {
 }
 
 template <class T>
-void s21::stack<T>::swap(stack& other) noexcept {
+void stack<T>::swap(stack& other) noexcept {
     std::swap(_size, other._size);
     std::swap(_root, other._root);
 }
 
 template <class T>
-s21::stack<T>& s21::stack<T>::operator=(s21::stack<T> &&other) {
+stack<T>& stack<T>::operator=(stack<T> &&other) {
     if (&other == this)
         return *this;
     this->~stack();
@@ -84,7 +86,7 @@ s21::stack<T>& s21::stack<T>::operator=(s21::stack<T> &&other) {
 
 template <class T>
 template <typename... Args>
-void s21::stack<T>::emplace_front(Args&&... args) {
+void stack<T>::emplace_front(Args&&... args) {
     std::vector<T> input_vector = { args... };
     auto x = input_vector.begin();
     while (x < input_vector.end()) {
@@ -92,3 +94,4 @@ void s21::stack<T>::emplace_front(Args&&... args) {
         x += 1;
     }
 }
+}  // namespace study

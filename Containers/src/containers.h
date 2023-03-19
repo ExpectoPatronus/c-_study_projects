@@ -1,12 +1,12 @@
-#ifndef SRC_S21_CONTAINERS_H_
-#define SRC_S21_CONTAINERS_H_
+#ifndef SRC_CONTAINERS_H_
+#define SRC_CONTAINERS_H_
 #include <iostream>
 #include <limits>
 #include <utility>
 #include <memory>
 #include <vector>
 
-namespace s21 {
+namespace study {
 template <class T>
 class sequence_container {
  protected:
@@ -45,7 +45,7 @@ class sequence_container {
     bool empty() const noexcept {return (!_size);}
     size_type size() const noexcept {return _size;}
 };
-}  // namespace s21
+}  // namespace study
 
-#endif  // SRC_S21_CONTAINERS_H_
+#endif  // SRC_CONTAINERS_H_
 

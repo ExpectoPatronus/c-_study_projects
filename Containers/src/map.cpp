@@ -1,8 +1,10 @@
-#include "s21_map.h"
+#include "map.h"
+
+namespace study {
 
 /* --БЛОК КОНСТРУКТОРОВ И ДЕСТРУКТОРОВ-- */
 template <class K, class M>
-s21::map<K, M>::map(std::initializer_list<value_type> const &items) {
+map<K, M>::map(std::initializer_list<value_type> const &items) {
     auto x = items.begin();
     while (x < items.end()) {
         insert(*x);
@@ -11,7 +13,7 @@ s21::map<K, M>::map(std::initializer_list<value_type> const &items) {
 }
 
 template <class K, class M>
-s21::map<K, M>& s21::map<K, M>::operator=(map &&m) {
+map<K, M>& map<K, M>::operator=(map &&m) {
     _value = std::move(m._value);
     return *this;
 }
@@ -19,7 +21,7 @@ s21::map<K, M>& s21::map<K, M>::operator=(map &&m) {
 
 /* --БЛОК ИЗМЕНЕНИЯ ЗНАЧЕНИЯ-- */
 template <class K, class M>
-M& s21::map<K, M>::at(const K& key) {
+M& map<K, M>::at(const K& key) {
     iterator iter = find(key);
     if (iter._pos == nullptr)
         throw std::out_of_range("AT, cant find key");
@@ -29,7 +31,7 @@ M& s21::map<K, M>::at(const K& key) {
 
 /* --БЛОК ИЗМЕНЕНИЯ КОНТЕЙНЕРА-- */
 template <class K, class M>
-typename s21::map<K, M>::insert_res s21::map<K, M>::insert(const_reference value) {
+typename map<K, M>::insert_res map<K, M>::insert(const_reference value) {
     iterator iter = _value.end();
     insert_res result = { _value.end(), false };
     if (!contains(value.first))
@@ -40,13 +42,13 @@ typename s21::map<K, M>::insert_res s21::map<K, M>::insert(const_reference value
 }
 
 template <class K, class M>
-typename s21::map<K, M>::insert_res s21::map<K, M>::insert_or_assign(const K& key, const M& obj) {
+typename map<K, M>::insert_res map<K, M>::insert_or_assign(const K& key, const M& obj) {
     erase(find(key));
     return insert( { key, obj } );
 }
 
 template <class K, class M>
-void s21::map<K, M>::merge(map& other) {
+void map<K, M>::merge(map& other) {
     iterator iter = other.begin();
     size_type size = other.size();
     while (size > 0) {
@@ -66,7 +68,7 @@ void s21::map<K, M>::merge(map& other) {
 
 template <class K, class M>
 template <class... Args>
-typename s21::map<K, M>::emplace_res s21::map<K, M>::emplace(Args&&... args) {
+typename map<K, M>::emplace_res map<K, M>::emplace(Args&&... args) {
     emplace_res result;
     std::vector<value_type> args_vector = { args... };
     auto x = args_vector.begin();
@@ -80,7 +82,7 @@ typename s21::map<K, M>::emplace_res s21::map<K, M>::emplace(Args&&... args) {
 
 /* --БЛОК ПРОСМОТРА КОНТЕЙНЕРА-- */
 template <class K, class M>
-typename s21::map<K, M>::iterator s21::map<K, M>::find(const K& key) {
+typename map<K, M>::iterator map<K, M>::find(const K& key) {
     iterator result = end();
     iterator iter = _value.begin();
     size_type size = _value.size();
@@ -94,7 +96,7 @@ typename s21::map<K, M>::iterator s21::map<K, M>::find(const K& key) {
 }
 
 template <class K, class M>
-bool s21::map<K, M>::contains(const K& key) {
+bool map<K, M>::contains(const K& key) {
     bool result = false;
     iterator iter = _value.begin();
     size_type size = _value.size();
@@ -109,7 +111,7 @@ bool s21::map<K, M>::contains(const K& key) {
 
 // печать отсортированного дерева
 template <class K, class M>
-void s21::map<K, M>::print(const char* name) {
+void map<K, M>::print(const char* name) {
     std::cout << name << '\n';
     std::cout << "Map size = " << size() << '\n';
     size_type x = 0;
@@ -132,3 +134,4 @@ void s21::map<K, M>::print(const char* name) {
     }
     std::cout << '\n';
 }
+}  // namespace study
